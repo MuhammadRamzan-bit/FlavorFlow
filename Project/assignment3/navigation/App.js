@@ -1,20 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import HomeScreen from './Screens/HomeScreen';
+import AddRecipeScreen from './Screens/AddRecipeScreen';
+import ExploreScreen from './Screens/ExploreScreen';
 
 export default function App() {
+  const [screen, setScreen] = useState("Login");
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+
+  const navigate = (page, params = {}) => {
+    if (params.recipe) {
+      setSelectedRecipe(params.recipe);
+    }
+    setScreen(page);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      
+      {screen === "Home" && <HomeScreen onNavigate={navigate} />}
+      {screen === "AddRecipe" && <AddRecipeScreen onNavigate={navigate} />}
+      {screen === "Explore" && <ExploreScreen onNavigate={navigate} />}
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
